@@ -57,23 +57,29 @@ class Game:
 
             # choose a random index
             random_index = random.randint(0, (len(quote)-1))
-            missing_word = quote[random_index]
+            missing_word = quote[random_index].lower()
             quote[random_index] = "_____"
 
             # guess the word
-            print "it's your turn, {0}".format(self.current_player)
+            print "It's your turn, {0}".format(self.current_player)
             print "This quote is by {0}: \n {1}".format(author, ' '.join(quote))
-            guess = raw_input('Guess the missing word: ')
+            guess = raw_input('Guess the missing word: ').lower()
             if guess == missing_word:
                 print "correct! You get a point! You guessed {0}, and the missing word was {1}".format(guess, missing_word)
 
                 self.add_point()
             elif guess in missing_word:
                 print "close, but you still get a point! You guessed {0}, and the missing word was {1}".format(guess, missing_word)
+                self.add_point()
+
             else:
-                print "Wrong guess The missing word was: {0}".format(missing_word)
+                print "Wrong guess. The missing word was: {0}".format(missing_word)
 
             self.switch_player()
+
+            exit = raw_input("Type exit to quit: ")
+            if exit.lower() == "exit":
+                break
 
         print "All out of quotes!"
         print "The final score is: {0}:{1}, {2}:{3}".format(self.player_1, self.player_1_score, self.player_2, self.player_2_score)
@@ -81,7 +87,7 @@ class Game:
 
 def main():
     quotes = []
-    quotes = load_data('test.csv')
+    quotes = load_data('randomquotes.csv')
     print "Welcome to Guess the word in the quote!"
     game = Game()
     game.play_game(quotes)
